@@ -35,12 +35,14 @@ const checkForUpdate = () => {
 };
 
 const checkSingleInstance = () => {
-  isFirstInstance = app.requestSingleInstanceLock();
+  if (!environment.platform.IS_MAC_OS) {
+    isFirstInstance = app.requestSingleInstanceLock();
 
-  if (!environment.platform.IS_WINDOWS && !isFirstInstance) {
-    quit();
-  } else {
-    app.on('second-instance', () => windowManager.showPrimaryWindow());
+    if (!environment.platform.IS_WINDOWS && !isFirstInstance) {
+      quit();
+    } else {
+      app.on('second-instance', () => windowManager.showPrimaryWindow());
+    }
   }
 };
 
